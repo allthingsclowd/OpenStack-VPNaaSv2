@@ -1,23 +1,92 @@
 <div *ngIf='vpnServices && ipsecConnections && ipsecPolicies && ikePolicies' class="container-fluid">
 	<div class="row">
-		<div class="col-md-3">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						VPN Services
-					</h3>
+			<div class="col-md-3">
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+								Add New VPN Service
+							</h3>
 				</div>
-				<div class="fix-panel panel-body">
-					<div *ngFor='let service of vpnServices.vpnservices'>
-            <li    value="service | json | removeQuotes"
-                    (click)="vpnChange(service)">{{service.name | json | removeQuotes}}</li>
-          </div>
+				<form [formGroup]="addVpnServiceForm" #addVPNService="ngForm">
+				  <div class="form-group panel-body">
+								<label for="name">Name</label>
+								<input id="name" class="form-control"
+											 formControlName="name" required >
+		
+								<label for="description">Description</label>
+								<input id="description" class="form-control"
+											formControlName="description">
+		
+								<label for="subnet">Subnet Id</label>
+								<select id="subnet_id" class="form-control"
+												formControlName="subnet_id" required >
+									<option *ngFor="let subnet of subnets" [value]="subnet.id">{{subnet.name}}</option>
+								</select>
+		
+								<label for="router">Router Id</label>
+								<select id="router_id" class="form-control"
+											formControlName="router_id" required >
+									<option *ngFor="let router of routers" [value]="router.id">{{router.name}}</option>
+								</select>
+							
+								<label for="availabilityZone">Availability Zone</label>
+								<select id="availabilityZone" class="form-control"
+										formControlName="availability_zone" required >
+									<option *ngFor="let az of azones" [value]="az">{{az}}</option>
+								</select>
+		
+				  </div>
+				  <div class="panel-footer">
+					<button type="button" class="btn btn-success btn-lg btn-block" 
+										[disabled]="addVpnServiceForm.invalid"
+										(click)="addVpnService()">
+					  Add
+					</button>
+				  </div>
+				</form>
+					</div> 
+		
 				</div>
-				<div class="panel-footer">
-					Total {{ vpnServices.vpnservices.length }}
+			<div class="col-md-3">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+								VPN Service Update/Delete
+							</h3>
 				</div>
-			</div>
-		</div>
+				<form [formGroup]="amendVpnServiceForm" #amendVPNService="ngForm" >
+				  <div class="form-group panel-body">
+									<label for="name">Name</label>
+									<input id="name" class="form-control"
+												 formControlName="name" required >
+			
+									<label for="description">Description</label>
+									<input id="description" class="form-control"
+												formControlName="description">
+			
+									<label for="adminState">Admin State</label>
+									<select id="adminState" class="form-control"
+													formControlName="adminState" required >
+										<option *ngFor="let state of adminState" [value]="state">{{state}}</option>
+									</select>
+		
+				  </div>
+				  <div class="panel-footer">
+								<button type="button" class="btn btn-info btn-lg btn-block" 
+													[disabled]="amendVpnServiceForm.invalid"
+													(click)="updateVpnService(vpnService)">
+					  Update
+					</button> 
+								<button type="button" class="btn btn-danger btn-lg btn-block" 
+													[disabled]="amendVpnServiceForm.invalid"
+													(click)="deleteVpnService()">
+					  Delete
+					</button>
+				  </div>
+				</form>
+					</div> 
+		
+				</div>
 		<div class="col-md-3">
 			<div class="panel panel-info">
 				<div class="panel-heading">
@@ -31,95 +100,146 @@
 			</div>
 		</div>
 		<div class="col-md-3">
-			<div class="panel panel-warning">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						VPN Service Update/Delete
-					</h3>
-        </div>
-        <form [formGroup]="amendVpnServiceForm" #amendVPNService="ngForm" >
-          <div class="form-group panel-body">
-							<label for="name">Name</label>
-							<input id="name" class="form-control"
-										 formControlName="name" required >
-	
-							<label for="description">Description</label>
-							<input id="description" class="form-control"
-										formControlName="description">
-	
-							<label for="adminState">Admin State</label>
-							<select id="adminState" class="form-control"
-											formControlName="adminState" required >
-								<option *ngFor="let state of adminState" [value]="state">{{state}}</option>
-							</select>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							VPN Services
+						</h3>
+					</div>
+					<div class="fix-panel panel-body">
+						<div *ngFor='let service of vpnServices.vpnservices'>
+				<li    value="service | json | removeQuotes"
+						(click)="vpnChange(service)">{{service.name | json | removeQuotes}}</li>
+			  </div>
+					</div>
+					<div class="panel-footer">
+						Total {{ vpnServices.vpnservices.length }}
+					</div>
+				</div>
+			</div>
 
-          </div>
-          <div class="panel-footer">
-						<button type="button" class="btn btn-info btn-lg btn-block" 
-											[disabled]="amendVpnServiceForm.invalid"
-											(click)="updateVpnService(vpnService)">
-              Update
-            </button> 
-						<button type="button" class="btn btn-danger btn-lg btn-block" 
-											[disabled]="amendVpnServiceForm.invalid"
-											(click)="deleteVpnService()">
-              Delete
-            </button>
-          </div>
-        </form>
-			</div> 
 
-		</div>
-		<div class="col-md-3">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						Add New VPN Service
-					</h3>
-        </div>
-        <form [formGroup]="addVpnServiceForm" #addVPNService="ngForm">
-          <div class="form-group panel-body">
-						<label for="name">Name</label>
-						<input id="name" class="form-control"
-									 formControlName="name" required >
-
-						<label for="description">Description</label>
-						<input id="description" class="form-control"
-									formControlName="description">
-
-						<label for="subnet">Subnet Id</label>
-						<select id="subnet_id" class="form-control"
-										formControlName="subnet_id" required >
-							<option *ngFor="let subnet of subnets" [value]="subnet.id">{{subnet.name}}</option>
-						</select>
-
-						<label for="router">Router Id</label>
-						<select id="router_id" class="form-control"
-									formControlName="router_id" required >
-							<option *ngFor="let router of routers" [value]="router.id">{{router.name}}</option>
-						</select>
-					
-						<label for="availabilityZone">Availability Zone</label>
-						<select id="availabilityZone" class="form-control"
-								formControlName="availability_zone" required >
-							<option *ngFor="let az of azones" [value]="az">{{az}}</option>
-						</select>
-
-          </div>
-          <div class="panel-footer">
-            <button type="button" class="btn btn-success btn-lg btn-block" 
-								[disabled]="addVpnServiceForm.invalid"
-								(click)="addVpnService()">
-              Add
-            </button>
-          </div>
-        </form>
-			</div> 
-
-		</div>
   </div>
   <hr>
   <div class="row">
+		<div class="col-md-3">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							Add New IPSec Policy
+						</h3>
+			</div>
+			<form [formGroup]="addIpsecPolicyForm" #addPolicyForm="ngForm">
+			  <div class="form-group panel-body">
+								<label for="name">Name</label>
+								<input id="name" class="form-control"
+											 formControlName="name" required >
+		
+								<label for="description">Description</label>
+								<input id="description" class="form-control"
+											formControlName="description" required >
+		
+								<label for="transform_protocol">Transform Protocol</label>
+								<select id="transform_protocol" class="form-control"
+												formControlName="transform_protocol" required >
+									<option *ngFor="let protocol of transform_protocol" [value]="protocol">{{protocol}}</option>
+								</select>
+	
+								<label for="auth_algorithm">Authentication Algorithm</label>
+								<select id="auth_algorithm" class="form-control"
+											formControlName="auth_algorithm" required >
+									<option *ngFor="let alg of auth_algorithm" [value]="alg">{{alg}}</option>
+								</select>
+		
+								<label for="encapsulation_mode">Encapsulation Mode</label>
+								<select id="encapsulation_mode" class="form-control"
+											formControlName="encapsulation_mode" required >
+									<option *ngFor="let mode of encapsulation_mode" [value]="mode">{{mode}}</option>
+								</select>
+	
+								<label for="encryption_algorithm">Encryption Algorithm</label>
+								<select id="encryption_algorithm" class="form-control"
+												formControlName="encryption_algorithm" required >
+									<option *ngFor="let proto of encryption_algorithm" [value]="proto">{{proto}}</option>
+								</select>
+		
+								<label for="pfs">Perfect Forward Secrecy</label>
+								<select id="pfs" class="form-control"
+												formControlName="pfs" required >
+									<option *ngFor="let group of pfs" [value]="group">{{group}}</option>
+								</select>
+	
+								<label for="lifetime">Lifetime of the SA</label>
+								<input id="lifetime" class="form-control"
+												formControlName="ipsecLtValue" required >
+							
+								<label for="availabilityZone">Availability Zone</label>
+								<select id="availabilityZone" class="form-control"
+										formControlName="availability_zone" required >
+									<option *ngFor="let az of azones" [value]="az">{{az}}</option>
+								</select>
+			  </div>
+			  <div class="panel-footer">
+				<button type="button" class="btn btn-success btn-lg btn-block" 
+							[disabled]="addIpsecPolicyForm.invalid"
+							(click)="addIpsecPolicy()">
+				  Add
+				</button>
+			  </div>
+			</form>  
+				</div> 
+	
+			</div>
+		<div class="col-md-3">
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							IPSec Policy Update/Delete
+						</h3>
+			</div>
+			<form [formGroup]="amendIpsecPolicyForm" #amendPolicyForm="ngForm">
+			  <div class="panel-body">
+								<label for="name">Name</label>
+								<input id="name" class="form-control"
+											 formControlName="name" required >
+		
+								<label for="description">Description</label>
+								<input id="description" class="form-control"
+											formControlName="description" required >
+		
+								<label for="encryption_algorithm">Encryption Algorithm</label>
+								<select id="encryption_algorithm" class="form-control"
+												formControlName="encryption_algorithm" required >
+									<option *ngFor="let proto of encryption_algorithm" [value]="proto">{{proto}}</option>
+								</select>
+		
+								<label for="pfs">Perfect Forward Secrecy</label>
+								<select id="pfs" class="form-control"
+												formControlName="pfs" required >
+									<option *ngFor="let group of pfs" [value]="group">{{group}}</option>
+								</select>
+	
+								<label for="lifetime">Lifetime of the SA</label>
+								<input id="lifetime" class="form-control"
+												formControlName="ipsecLtValue" required >
+							
+			  </div>
+			  <div class="panel-footer">
+				<button type="button" class="btn btn-info btn-lg btn-block" 
+							[disabled]="amendIpsecPolicyForm.invalid"
+							(click)="updateIpsecPolicy()">
+				  Update
+				</button> 
+				<button type="button" class="btn btn-danger btn-lg btn-block" 
+							[disabled]="amendIpsecPolicyForm.invalid"
+							(click)="deleteIpsecPolicy()">
+				  Delete
+				</button>
+			  </div>
+			</form>
+				</div> 
+	
+			</div>
 		<div class="col-md-3">
 			<div class="panel panel-info">
 				<div class="panel-heading">
@@ -153,127 +273,129 @@
 				</div> -->
 			</div>
 		</div>
-		<div class="col-md-3">
-			<div class="panel panel-warning">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						IPSec Policy Update/Delete
-					</h3>
-        </div>
-        <form [formGroup]="amendIpsecPolicyForm" #amendPolicyForm="ngForm">
-          <div class="panel-body">
-							<label for="name">Name</label>
-							<input id="name" class="form-control"
-										 formControlName="name" required >
-	
-							<label for="description">Description</label>
-							<input id="description" class="form-control"
-										formControlName="description" required >
-	
-							<label for="encryption_algorithm">Encryption Algorithm</label>
-							<select id="encryption_algorithm" class="form-control"
-											formControlName="encryption_algorithm" required >
-								<option *ngFor="let proto of encryption_algorithm" [value]="proto">{{proto}}</option>
-							</select>
-	
-							<label for="pfs">Perfect Forward Secrecy</label>
-							<select id="pfs" class="form-control"
-											formControlName="pfs" required >
-								<option *ngFor="let group of pfs" [value]="group">{{group}}</option>
-							</select>
 
-							<label for="lifetime">Lifetime of the SA</label>
-							<input id="lifetime" class="form-control"
-											formControlName="ipsecLtValue" required >
-						
-          </div>
-          <div class="panel-footer">
-            <button type="button" class="btn btn-info btn-lg btn-block" 
-						[disabled]="amendIpsecPolicyForm.invalid"
-						(click)="updateIpsecPolicy()">
-              Update
-            </button> 
-            <button type="button" class="btn btn-danger btn-lg btn-block" 
-						[disabled]="amendIpsecPolicyForm.invalid"
-						(click)="deleteIpsecPolicy()">
-              Delete
-            </button>
-          </div>
-        </form>
-			</div> 
 
-		</div>
-		<div class="col-md-3">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						Add New IPSec Policy
-					</h3>
-        </div>
-        <form [formGroup]="addIpsecPolicyForm" #addPolicyForm="ngForm">
-          <div class="form-group panel-body">
-							<label for="name">Name</label>
-							<input id="name" class="form-control"
-										 formControlName="name" required >
-	
-							<label for="description">Description</label>
-							<input id="description" class="form-control"
-										formControlName="description" required >
-	
-							<label for="transform_protocol">Transform Protocol</label>
-							<select id="transform_protocol" class="form-control"
-											formControlName="transform_protocol" required >
-								<option *ngFor="let protocol of transform_protocol" [value]="protocol">{{protocol}}</option>
-							</select>
-
-							<label for="auth_algorithm">Authentication Algorithm</label>
-							<select id="auth_algorithm" class="form-control"
-										formControlName="auth_algorithm" required >
-								<option *ngFor="let alg of auth_algorithm" [value]="alg">{{alg}}</option>
-							</select>
-	
-							<label for="encapsulation_mode">Encapsulation Mode</label>
-							<select id="encapsulation_mode" class="form-control"
-										formControlName="encapsulation_mode" required >
-								<option *ngFor="let mode of encapsulation_mode" [value]="mode">{{mode}}</option>
-							</select>
-
-							<label for="encryption_algorithm">Encryption Algorithm</label>
-							<select id="encryption_algorithm" class="form-control"
-											formControlName="encryption_algorithm" required >
-								<option *ngFor="let proto of encryption_algorithm" [value]="proto">{{proto}}</option>
-							</select>
-	
-							<label for="pfs">Perfect Forward Secrecy</label>
-							<select id="pfs" class="form-control"
-											formControlName="pfs" required >
-								<option *ngFor="let group of pfs" [value]="group">{{group}}</option>
-							</select>
-
-							<label for="lifetime">Lifetime of the SA</label>
-							<input id="lifetime" class="form-control"
-											formControlName="ipsecLtValue" required >
-						
-							<label for="availabilityZone">Availability Zone</label>
-							<select id="availabilityZone" class="form-control"
-									formControlName="availability_zone" required >
-								<option *ngFor="let az of azones" [value]="az">{{az}}</option>
-							</select>
-          </div>
-          <div class="panel-footer">
-            <button type="button" class="btn btn-success btn-lg btn-block" 
-						[disabled]="addIpsecPolicyForm.invalid"
-						(click)="addIpsecPolicy()">
-              Add
-            </button>
-          </div>
-        </form>  
-			</div> 
-
-		</div>
   </div>
   <hr>
   <div class="row">
+		<div class="col-md-3">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							Add New IKE Policy
+						</h3>
+			</div>
+			<form [formGroup]="addIkePolicyForm" >
+			  <div class="form-group panel-body">
+								<label for="name">Name</label>
+								<input id="name" class="form-control"
+											 formControlName="name" required >
+		
+								<label for="description">Description</label>
+								<input id="description" class="form-control"
+											formControlName="description" required >
+		
+								<label for="phase1_negotiation_mode">Phase 1 Negotiation Mode</label>
+								<select id="phase1_negotiation_mode" class="form-control"
+												formControlName="phase1_negotiation_mode" required >
+									<option *ngFor="let mode of phase1_negotiation_mode" [value]="mode">{{mode}}</option>
+								</select>
+	
+								<label for="auth_algorithm">Authentication Algorithm</label>
+								<select id="auth_algorithm" class="form-control"
+											formControlName="auth_algorithm" required >
+									<option *ngFor="let alg of auth_algorithm" [value]="alg">{{alg}}</option>
+								</select>
+	
+								<label for="encryption_algorithm">Encryption Algorithm</label>
+								<select id="encryption_algorithm" class="form-control"
+												formControlName="encryption_algorithm" required >
+									<option *ngFor="let proto of encryption_algorithm" [value]="proto">{{proto}}</option>
+								</select>
+		
+								<label for="pfs">Perfect Forward Secrecy</label>
+								<select id="pfs" class="form-control"
+												formControlName="pfs" required >
+									<option *ngFor="let group of pfs" [value]="group">{{group}}</option>
+								</select>
+	
+								<label for="lifetime">Lifetime of the SA</label>
+								<input id="lifetime" class="form-control"
+												formControlName="ikeLtValue" required >
+	
+								<label for="ike_version">IKE Version</label>
+								<select id="ike_version" class="form-control"
+											formControlName="ike_version" required >
+									<option *ngFor="let ver of ike_version" [value]="ver">{{ver}}</option>
+								</select>
+							
+								<label for="availabilityZone">Availability Zone</label>
+								<select id="availabilityZone" class="form-control"
+										formControlName="availability_zone" required >
+									<option *ngFor="let az of azones" [value]="az">{{az}}</option>
+								</select>
+			  </div>
+			  <div class="panel-footer">
+				<button type="button" class="btn btn-success btn-lg btn-block" 
+							[disabled]="addIkePolicyForm.invalid"
+							(click)="addIkePolicy()">
+				  Add
+				</button>
+			  </div>
+			</form>
+				</div> 
+	
+			</div>
+		<div class="col-md-3">
+				<div class="panel panel-warning">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							IKE Policy Update/Delete
+						</h3>
+			</div>
+			<form [formGroup]="amendIkePolicyForm" >
+			  <div class="panel-body">
+								<label for="name">Name</label>
+								<input id="name" class="form-control"
+											 formControlName="name" required >
+		
+								<label for="description">Description</label>
+								<input id="description" class="form-control"
+											formControlName="description" required >
+		
+								<label for="encryption_algorithm">Encryption Algorithm</label>
+								<select id="encryption_algorithm" class="form-control"
+												formControlName="encryption_algorithm" required >
+									<option *ngFor="let proto of encryption_algorithm" [value]="proto">{{proto}}</option>
+								</select>
+		
+								<label for="pfs">Perfect Forward Secrecy</label>
+								<select id="pfs" class="form-control"
+												formControlName="pfs" required >
+									<option *ngFor="let group of pfs" [value]="group">{{group}}</option>
+								</select>
+	
+								<label for="lifetime">Lifetime of the SA</label>
+								<input id="lifetime" class="form-control"
+												formControlName="ikeLtValue" required >
+	
+			  </div>
+			  <div class="panel-footer">
+				<button type="button" class="btn btn-info btn-lg btn-block" 
+							[disabled]="amendIkePolicyForm.invalid"
+							(click)="updateIkePolicy()">
+				  Update
+				</button> 
+				<button type="button" class="btn btn-danger btn-lg btn-block" 
+							[disabled]="amendIkePolicyForm.invalid"
+							(click)="deleteIkePolicy()">
+				  Delete
+				</button>
+			  </div>
+			</form>
+				</div> 
+	
+			</div>
 		<div class="col-md-3">
 			<div class="panel panel-info">
 				<div class="panel-heading">
@@ -307,127 +429,181 @@
 				</div> -->
 			</div>
 		</div>
-		<div class="col-md-3">
-			<div class="panel panel-warning">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						IKE Policy Update/Delete
-					</h3>
-        </div>
-        <form [formGroup]="amendIkePolicyForm" >
-          <div class="panel-body">
-							<label for="name">Name</label>
-							<input id="name" class="form-control"
-										 formControlName="name" required >
-	
-							<label for="description">Description</label>
-							<input id="description" class="form-control"
-										formControlName="description" required >
-	
-							<label for="encryption_algorithm">Encryption Algorithm</label>
-							<select id="encryption_algorithm" class="form-control"
-											formControlName="encryption_algorithm" required >
-								<option *ngFor="let proto of encryption_algorithm" [value]="proto">{{proto}}</option>
-							</select>
-	
-							<label for="pfs">Perfect Forward Secrecy</label>
-							<select id="pfs" class="form-control"
-											formControlName="pfs" required >
-								<option *ngFor="let group of pfs" [value]="group">{{group}}</option>
-							</select>
 
-							<label for="lifetime">Lifetime of the SA</label>
-							<input id="lifetime" class="form-control"
-											formControlName="ikeLtValue" required >
 
-          </div>
-          <div class="panel-footer">
-            <button type="button" class="btn btn-info btn-lg btn-block" 
-						[disabled]="amendIkePolicyForm.invalid"
-						(click)="updateIkePolicy()">
-              Update
-            </button> 
-            <button type="button" class="btn btn-danger btn-lg btn-block" 
-						[disabled]="amendIkePolicyForm.invalid"
-						(click)="deleteIkePolicy()">
-              Delete
-            </button>
-          </div>
-        </form>
-			</div> 
-
-		</div>
-		<div class="col-md-3">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						Add New IKE Policy
-					</h3>
-        </div>
-        <form [formGroup]="addIkePolicyForm" >
-          <div class="form-group panel-body">
-							<label for="name">Name</label>
-							<input id="name" class="form-control"
-										 formControlName="name" required >
-	
-							<label for="description">Description</label>
-							<input id="description" class="form-control"
-										formControlName="description" required >
-	
-							<label for="phase1_negotiation_mode">Phase 1 Negotiation Mode</label>
-							<select id="phase1_negotiation_mode" class="form-control"
-											formControlName="phase1_negotiation_mode" required >
-								<option *ngFor="let mode of phase1_negotiation_mode" [value]="mode">{{mode}}</option>
-							</select>
-
-							<label for="auth_algorithm">Authentication Algorithm</label>
-							<select id="auth_algorithm" class="form-control"
-										formControlName="auth_algorithm" required >
-								<option *ngFor="let alg of auth_algorithm" [value]="alg">{{alg}}</option>
-							</select>
-
-							<label for="encryption_algorithm">Encryption Algorithm</label>
-							<select id="encryption_algorithm" class="form-control"
-											formControlName="encryption_algorithm" required >
-								<option *ngFor="let proto of encryption_algorithm" [value]="proto">{{proto}}</option>
-							</select>
-	
-							<label for="pfs">Perfect Forward Secrecy</label>
-							<select id="pfs" class="form-control"
-											formControlName="pfs" required >
-								<option *ngFor="let group of pfs" [value]="group">{{group}}</option>
-							</select>
-
-							<label for="lifetime">Lifetime of the SA</label>
-							<input id="lifetime" class="form-control"
-											formControlName="ikeLtValue" required >
-
-							<label for="ike_version">IKE Version</label>
-							<select id="ike_version" class="form-control"
-										formControlName="ike_version" required >
-								<option *ngFor="let ver of ike_version" [value]="ver">{{ver}}</option>
-							</select>
-						
-							<label for="availabilityZone">Availability Zone</label>
-							<select id="availabilityZone" class="form-control"
-									formControlName="availability_zone" required >
-								<option *ngFor="let az of azones" [value]="az">{{az}}</option>
-							</select>
-          </div>
-          <div class="panel-footer">
-            <button type="button" class="btn btn-success btn-lg btn-block" 
-						[disabled]="addIkePolicyForm.invalid"
-						(click)="addIkePolicy()">
-              Add
-            </button>
-          </div>
-        </form>
-			</div> 
-
-		</div>
   </div>
   <hr>
   <div class="row">
+		<div class="col-md-3">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							Add New Site Connection
+						</h3>
+					</div>
+					<form [formGroup]="addConnectionForm" >
+						  <div class="form-group panel-body">
+								<label for="name">Name</label>
+								<input id="name" class="form-control"
+											 formControlName="name" required >
+		
+								<label for="description">Description</label>
+								<input id="description" class="form-control"
+											formControlName="description" required >
+		
+								<label for="psk">Pre-Shared Key</label>
+								<input id="psk" class="form-control"
+												type="password" formControlName="psk" required >
+	
+								<label for="initiator">Initiator Type</label>
+								<select id="initiator" class="form-control"
+											formControlName="initiator" required >
+									<option *ngFor="let direction of initiator" [value]="direction">{{direction}}</option>
+								</select>
+	
+								<label for="ikepolicy_id">IKE Policy - Phase 1</label>
+								<select id="ikepolicy_id" class="form-control"
+								formControlName="ikepolicy_id" required >
+									<option *ngFor="let ikpolicy of ikePolicies.ikepolicies" [value]="ikpolicy.id">{{ikpolicy.name}} ({{ikpolicy.id}})</option>
+								</select>
+	
+								<label for="ipsecpolicy_id">IPSec Policy - Phase 2</label>
+								<select id="ipsecpolicy_id" class="form-control"
+												formControlName="ipsecpolicy_id" required >
+									<option *ngFor="let secpolicy of ipsecPolicies.ipsecpolicies" [value]="secpolicy.id">{{secpolicy.name}}  ({{secpolicy.id}})</option>
+								</select>
+							
+								<label for="vpnservice_id">VPN Service</label>
+								<select id="vpnservice_id" class="form-control"
+										formControlName="vpnservice_id" required >
+									<option *ngFor="let service of vpnServices.vpnservices" [value]="service.id">{{service.name}} ({{service.id}})</option>
+								</select>
+	
+								<label for="peer_cidrs">Peer CIDR [Note: One Only Supported]</label>
+								<input id="peer_cidrs" class="form-control"
+												formControlName="peer_cidrs" required >
+	
+								<label for="peer_address">Peer Gateway IP Address</label>
+								<input id="peer_address" class="form-control"
+												formControlName="peer_address" required >
+		
+								<label for="peer_id">Peer Router Id [Label - Use Peer Gateway]</label>
+								<input id="peer_id" class="form-control"
+												formControlName="peer_id" required >
+	
+								<label for="dpd_protocol">Dead Peer Detection Protocol</label>
+								<select id="dpd_protocol" class="form-control"
+											formControlName="dpd_protocol" required >
+									<option *ngFor="let protocol of dpdProtocol" [value]="protocol">{{protocol}}</option>
+								</select>
+								
+								<label for="dpd_interval">Dead Peer Detection Interval</label>
+								<input id="dpd_interval" class="form-control"
+											formControlName="dpd_interval" required >
+	
+								<label for="dpd_timeout">Dead Peer Detection Timeout</label>
+								<input id="dpd_timeout" class="form-control"
+											formControlName="dpd_timeout" required >
+	
+								<label for="admin_state_up">Admin State Up</label>
+								<select id="admin_state_up" class="form-control"
+										formControlName="admin_state_up" required >
+									<option *ngFor="let state of adminState" [value]="state">{{state}}</option>
+								</select>
+	
+								<label for="availabilityZone">Availability Zone</label>
+								<select id="availabilityZone" class="form-control"
+										formControlName="availability_zone" required >
+									<option *ngFor="let az of azones" [value]="az">{{az}}</option>
+								</select>
+					  </div>
+					  <div class="panel-footer">
+						<button type="button" class="btn btn-success btn-lg btn-block" 
+							[disabled]="addConnectionForm.invalid"
+							(click)="addSiteConnection()">
+							  Add
+						</button>
+					  </div>
+				</form>
+				</div> 
+	
+			</div>
+			<div class="col-md-3">
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<h3 class="panel-title">
+								Site Connection Update/Delete
+							</h3>
+				</div>
+				<form [formGroup]="amendConnectionForm" >
+				  <div class="panel-body">
+									<label for="name">Name</label>
+									<input id="name" class="form-control"
+												 formControlName="name" required >
+			
+									<label for="description">Description</label>
+									<input id="description" class="form-control"
+												formControlName="description" required >
+			
+									<label for="psk">Pre-Shared Key</label>
+									<input id="psk" class="form-control"
+													type="password" formControlName="psk" required >
+		
+									<label for="initiator">Initiator Type</label>
+									<select id="initiator" class="form-control"
+												formControlName="initiator" required >
+										<option *ngFor="let direction of initiator" [value]="direction">{{direction}}</option>
+									</select>
+		
+									<label for="peer_cidrs">Peer CIDR [Note: One Only Supported]</label>
+									<input id="peer_cidrs" class="form-control"
+													formControlName="peer_cidrs" required >
+		
+									<label for="peer_address">Peer Gateway IP Address</label>
+									<input id="peer_address" class="form-control"
+													formControlName="peer_address" required >
+			
+									<label for="peer_id">Peer Router Id [Label - Use Peer Gateway]</label>
+									<input id="peer_id" class="form-control"
+													formControlName="peer_id" required >
+		
+									<label for="dpd_protocol">Dead Peer Detection Protocol</label>
+									<select id="dpd_protocol" class="form-control"
+												formControlName="dpd_protocol" required >
+										<option *ngFor="let protocol of dpdProtocol" [value]="protocol">{{protocol}}</option>
+									</select>
+									
+									<label for="dpd_interval">Dead Peer Detection Interval</label>
+									<input id="dpd_interval" class="form-control"
+												formControlName="dpd_interval" required >
+		
+									<label for="dpd_timeout">Dead Peer Detection Timeout</label>
+									<input id="dpd_timeout" class="form-control"
+												formControlName="dpd_timeout" required >
+		
+									<label for="admin_state_up">Admin State Up</label>
+									<select id="admin_state_up" class="form-control"
+											formControlName="admin_state_up" required >
+										<option *ngFor="let state of adminState" [value]="state">{{state}}</option>
+									</select>
+		
+				  </div>
+				  <div class="panel-footer">
+					<button type="button" class="btn btn-info btn-lg btn-block" 
+								[disabled]="amendConnectionForm.invalid"
+								(click)="updateSiteConnection()">
+					  Update
+					</button> 
+					<button type="button" class="btn btn-danger btn-lg btn-block" 
+								[disabled]="amendConnectionForm.invalid"
+								(click)="deleteSiteConnection()">
+					  Delete
+					</button>
+				  </div>
+				</form>
+					</div> 
+		
+				</div>
 		<div class="col-md-3">
 			<div class="panel panel-info">
 				<div class="panel-heading">
@@ -458,175 +634,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-3">
-			<div class="panel panel-warning">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						Site Connection Update/Delete
-					</h3>
-        </div>
-        <form [formGroup]="amendConnectionForm" >
-          <div class="panel-body">
-							<label for="name">Name</label>
-							<input id="name" class="form-control"
-										 formControlName="name" required >
-	
-							<label for="description">Description</label>
-							<input id="description" class="form-control"
-										formControlName="description" required >
-	
-							<label for="psk">Pre-Shared Key</label>
-							<input id="psk" class="form-control"
-											type="password" formControlName="psk" required >
 
-							<label for="initiator">Initiator Type</label>
-							<select id="initiator" class="form-control"
-										formControlName="initiator" required >
-								<option *ngFor="let direction of initiator" [value]="direction">{{direction}}</option>
-							</select>
 
-							<label for="peer_cidrs">Peer CIDR [Note: One Only Supported]</label>
-							<input id="peer_cidrs" class="form-control"
-											formControlName="peer_cidrs" required >
-
-							<label for="peer_address">Peer Gateway IP Address</label>
-							<input id="peer_address" class="form-control"
-											formControlName="peer_address" required >
-	
-							<label for="peer_id">Peer Router Id [Label - Use Peer Gateway]</label>
-							<input id="peer_id" class="form-control"
-											formControlName="peer_id" required >
-
-							<label for="dpd_protocol">Dead Peer Detection Protocol</label>
-							<select id="dpd_protocol" class="form-control"
-										formControlName="dpd_protocol" required >
-								<option *ngFor="let protocol of dpdProtocol" [value]="protocol">{{protocol}}</option>
-							</select>
-							
-							<label for="dpd_interval">Dead Peer Detection Interval</label>
-							<input id="dpd_interval" class="form-control"
-										formControlName="dpd_interval" required >
-
-							<label for="dpd_timeout">Dead Peer Detection Timeout</label>
-							<input id="dpd_timeout" class="form-control"
-										formControlName="dpd_timeout" required >
-
-							<label for="admin_state_up">Admin State Up</label>
-							<select id="admin_state_up" class="form-control"
-									formControlName="admin_state_up" required >
-								<option *ngFor="let state of adminState" [value]="state">{{state}}</option>
-							</select>
-
-          </div>
-          <div class="panel-footer">
-            <button type="button" class="btn btn-info btn-lg btn-block" 
-						[disabled]="amendConnectionForm.invalid"
-						(click)="updateSiteConnection()">
-              Update
-            </button> 
-            <button type="button" class="btn btn-danger btn-lg btn-block" 
-						[disabled]="amendConnectionForm.invalid"
-						(click)="deleteSiteConnection()">
-              Delete
-            </button>
-          </div>
-        </form>
-			</div> 
-
-		</div>
-		<div class="col-md-3">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<h3 class="panel-title">
-						Add New Site Connection
-					</h3>
-        		</div>
-        		<form [formGroup]="addConnectionForm" >
-          			<div class="form-group panel-body">
-							<label for="name">Name</label>
-							<input id="name" class="form-control"
-										 formControlName="name" required >
-	
-							<label for="description">Description</label>
-							<input id="description" class="form-control"
-										formControlName="description" required >
-	
-							<label for="psk">Pre-Shared Key</label>
-							<input id="psk" class="form-control"
-											type="password" formControlName="psk" required >
-
-							<label for="initiator">Initiator Type</label>
-							<select id="initiator" class="form-control"
-										formControlName="initiator" required >
-								<option *ngFor="let direction of initiator" [value]="direction">{{direction}}</option>
-							</select>
-
-							<label for="ikepolicy_id">IKE Policy - Phase 1</label>
-							<select id="ikepolicy_id" class="form-control"
-							formControlName="ikepolicy_id" required >
-								<option *ngFor="let ikpolicy of ikePolicies.ikepolicies" [value]="ikpolicy.id">{{ikpolicy.name}} ({{ikpolicy.id}})</option>
-							</select>
-
-							<label for="ipsecpolicy_id">IPSec Policy - Phase 2</label>
-							<select id="ipsecpolicy_id" class="form-control"
-											formControlName="ipsecpolicy_id" required >
-								<option *ngFor="let secpolicy of ipsecPolicies.ipsecpolicies" [value]="secpolicy.id">{{secpolicy.name}}  ({{secpolicy.id}})</option>
-							</select>
-						
-							<label for="vpnservice_id">VPN Service</label>
-							<select id="vpnservice_id" class="form-control"
-									formControlName="vpnservice_id" required >
-								<option *ngFor="let service of vpnServices.vpnservices" [value]="service.id">{{service.name}} ({{service.id}})</option>
-							</select>
-
-							<label for="peer_cidrs">Peer CIDR [Note: One Only Supported]</label>
-							<input id="peer_cidrs" class="form-control"
-											formControlName="peer_cidrs" required >
-
-							<label for="peer_address">Peer Gateway IP Address</label>
-							<input id="peer_address" class="form-control"
-											formControlName="peer_address" required >
-	
-							<label for="peer_id">Peer Router Id [Label - Use Peer Gateway]</label>
-							<input id="peer_id" class="form-control"
-											formControlName="peer_id" required >
-
-							<label for="dpd_protocol">Dead Peer Detection Protocol</label>
-							<select id="dpd_protocol" class="form-control"
-										formControlName="dpd_protocol" required >
-								<option *ngFor="let protocol of dpdProtocol" [value]="protocol">{{protocol}}</option>
-							</select>
-							
-							<label for="dpd_interval">Dead Peer Detection Interval</label>
-							<input id="dpd_interval" class="form-control"
-										formControlName="dpd_interval" required >
-
-							<label for="dpd_timeout">Dead Peer Detection Timeout</label>
-							<input id="dpd_timeout" class="form-control"
-										formControlName="dpd_timeout" required >
-
-							<label for="admin_state_up">Admin State Up</label>
-							<select id="admin_state_up" class="form-control"
-									formControlName="admin_state_up" required >
-								<option *ngFor="let state of adminState" [value]="state">{{state}}</option>
-							</select>
-
-							<label for="availabilityZone">Availability Zone</label>
-							<select id="availabilityZone" class="form-control"
-									formControlName="availability_zone" required >
-								<option *ngFor="let az of azones" [value]="az">{{az}}</option>
-							</select>
-          		</div>
-          		<div class="panel-footer">
-            		<button type="button" class="btn btn-success btn-lg btn-block" 
-						[disabled]="addConnectionForm.invalid"
-						(click)="addSiteConnection()">
-              			Add
-            		</button>
-          		</div>
-        	</form>
-			</div> 
-
-		</div>
 	</div>
 </div>
