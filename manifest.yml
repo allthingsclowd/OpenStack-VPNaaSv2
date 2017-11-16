@@ -2,7 +2,7 @@
 
 ---
 applications:
-- name: K5-Admin-Portal
+- name: CNETS-VPNaaS
   memory: 128M
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
   path: dist/
