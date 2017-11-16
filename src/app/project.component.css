@@ -1,0 +1,54 @@
+.wrapper{
+    border: 1px;
+    height: 250px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 250px;
+ }
+ .wrapper .selection{
+   float: none;
+   width:250px;
+   border:1px solid #ccc
+ }
+
+ li:hover { 
+  background-color: yellow;
+}
+
+.btn-xl {
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+.btn-lg{
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 0px;
+}
+
+.btn-round-lg{
+  padding: 10px 20px;
+  font-size: 20px;
+  border-radius: 20px;
+}
+.btn-round{
+border-radius: 17px;
+}
+.btn-round-sm{
+border-radius: 15px;
+}
+.btn-round-xs{
+border-radius: 11px;
+padding-left: 10px;
+padding-right: 10px;
+}
+/* .navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+} */

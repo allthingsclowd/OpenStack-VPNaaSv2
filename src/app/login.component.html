@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="center col-md-4">
+    <form [formGroup]="loginForm" >
+      <div formGroupName="loginData">
+          <div class="form-group">
+            <label for="k5contract">
+              Contract
+            </label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="k5contract"
+              formControlName="contract">
+            <span
+              *ngIf="!loginForm.get('loginData.contract').valid && loginForm.get('loginData.contract').touched"
+              class="help-block">Please enter a valid K5 contract name
+            </span>
+          </div>
+        <div class="form-group">					 
+          <label for="k5username">
+            User
+          </label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="k5username"
+            formControlName="user">
+          <span
+            *ngIf="!loginForm.get('loginData.user').valid && loginForm.get('loginData.user').touched"
+            class="help-block">Please enter a valid K5 username
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="k5password">
+            Password
+          </label>
+          <input 
+            type="password" 
+            class="form-control" 
+            id="k5password"
+            formControlName="password">
+          <span
+            *ngIf="!loginForm.get('loginData.password').valid && loginForm.get('loginData.password').touched"
+            class="help-block">Please enter a valid K5 password
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="k5region">
+            Region
+          </label>
+          <select
+            id="region"
+            class="form-control"
+            formControlName="region"						
+            name="region">
+            <option [value]="null">Choose a region</option>
+            <option *ngFor="let region of regions" [value]="region">{{region}}</option>
+            
+          </select>
+          <span
+            *ngIf="!loginForm.get('loginData.region').valid && loginForm.get('loginData.region').touched"
+            class="help-block">Please select a global region from the list
+          </span>	
+        </div>
+        <!-- <div class="form-group">  -->
+            <!-- CORS Proxy Toggle -->
+            <!-- <span
+              *ngIf="!loginForm.get('loginData.k5cors').value"
+              class="help-block">CORS Proxy Disabled
+            </span> -->
+
+            <!-- <p *ngIf="loginForm.get('loginData.k5cors').value">CORS Proxy Enabled</p>
+            <p *ngIf="!loginForm.get('loginData.k5cors').value">CORS Proxy Disabled</p> -->
+            <!-- <label class="switch">
+              <input type="checkbox"
+              id="k5cors"
+              formControlName="k5cors"
+              (change)="toggleK5Proxy()">
+              <span class="slider round"></span>
+              
+            </label>
+            
+          </div> -->
+
+      </div>
+      <div class="form-group" *ngIf="!loggedIn">
+        <button type="button" class="pull-right btn-xl btn btn-success btn-large" [disabled]="!loginForm.get('loginData').valid" (click)="onLogin()">
+          Login
+        </button>
+        <span
+          *ngIf="failedLogIn"
+          class="help-block error">Login Failure - Please check your K5 details and try again.
+        </span>					
+      </div>
+    </form> 
+
+
+  </div>
+</div>

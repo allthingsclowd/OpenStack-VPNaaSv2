@@ -1,0 +1,89 @@
+<div *ngIf='currentProjectT' class="container-fluid">
+  <div class="row">
+    <div *ngIf='userRouters' class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Routers 
+          </h3>
+        </div>
+        <div class="fixed-panel panel-body">
+          <div *ngFor='let router of userRouters'>
+            <li    value="router | json | removeQuotes"
+                    (click)="routerChange(router)">{{router.name | json | removeQuotes}}</li>
+          </div>
+        </div>
+        <div class="panel-footer">
+
+        </div>
+      </div>
+    </div>
+    <div *ngIf='routerDetails' class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            Router {{routerDetails.name | json | removeQuotes}}
+          </h3>
+        </div>
+        <div class="fixed-panel panel-body">
+          <div>
+            {{routerDetails| json| removeQuotes}}
+          </div>
+        </div>
+        <div class="panel-heading">
+            <h3 class="panel-title">
+            Current Routes
+          </h3>
+        </div>
+        <div class="fixed-panel panel-body">
+            <div>
+              {{routerDetails.routes| json| removeQuotes}}
+            </div>
+          </div>
+          <div *ngIf='routerStatus'>
+          <div *ngIf='routerStatus.status != 200' class="panel-heading">
+              <h3 class="panel-title">
+              Route Update Status
+            </h3>
+          </div>
+          <div *ngIf='routerStatus.status != 200' class="fixed-panel panel-body">
+              <div>
+                {{routerStatus| json| removeQuotes}}
+              </div>
+            </div>
+          </div>
+        <div class="panel-footer">
+            <form [formGroup]="newRoutesForm" >
+                <div formGroupName="routeData">
+                    <div class="form-group">
+                      <label for="routes">
+                        Routes
+                      </label>
+                      <input 
+                        type="text" 
+                        class="form-control" 
+                        id="routes"
+                        formControlName="routes">
+                      <span
+                        *ngIf="!newRoutesForm.get('routeData.routes').valid && newRoutesForm.get('routeData.routes').touched"
+                        class="help-block">Please enter valid K5 routes e.g. 
+                        [{{'{'}}
+                        "nexthop": "192.168.0.7", "destination": "10.0.0.0/24"{{'}'}},
+                        {{'{'}}
+                        "nexthop": "192.168.0.7", "destination": "172.16.0.0/24"{{'}'}},
+                        {{'{'}}
+                        "nexthop": "192.168.0.254", "destination": "0.0.0/0"
+                        {{'}'}}]
+                     </span>
+                    </div>
+                  </div>
+            
+            <button type="button" class="btn-xl btn btn-info" [disabled]="!newRoutesForm.get('routeData').valid" (click)="onRouteAppend(newRoutesForm.get('routeData.routes').value)">Append To Existing Routes</button>
+            <button type="button" class="btn-xl btn btn-success" [disabled]="!newRoutesForm.get('routeData').valid" (click)="onRouteReplace(newRoutesForm.get('routeData.routes').value)">Replace Existing Routes</button>
+            <button type="button" class="btn-xl btn btn-danger" (click)="onRouteDelete()">Purge All Routes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

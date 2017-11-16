@@ -1,0 +1,19 @@
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<img alt="Fujitsu K5 Logo" src="https://www.fujitsu.com/uk/Images/K5-climber-580x224_tcm23-2619235.jpg" class="img-responsive center-block img-rounded">
+		</div>
+	</div>
+    <div class="container-fluid">
+		<app-login *ngIf="!loggedIn"></app-login>
+		<div>
+			<div class="row">
+					<div class="col-md-12 text-center">
+						<!-- <app-logout *ngIf="loggedIn"></app-logout> -->
+						<app-project *ngIf="loggedIn && userProjects" ></app-project>
+					</div>				
+			</div>
+		</div>
+		<app-project-panel *ngIf="loggedIn && contractProjects"></app-project-panel>
+	</div>
+

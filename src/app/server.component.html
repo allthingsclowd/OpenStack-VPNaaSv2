@@ -1,0 +1,59 @@
+<form [formGroup]="passwordForm" >        
+<div *ngIf="passwordForm.get('serverData.project').valid" class="form-group">
+          <label for="server">
+            Please select a server
+          </label>					
+          <select
+            id="server"
+            class="form-control"
+            formControlName="server"						
+            name="server"
+            (change)="serverChange()">
+            <option [value]="null">Choose a server</option>
+            <option *ngFor="let server of servers | sortObjectsByName" [value]="server.id">{{server.name}}</option>
+            
+          </select>
+          <span
+            *ngIf="!passwordForm.get('serverData.server').valid && passwordForm.get('serverData.server').touched"
+            class="help-block">Please select a windows server from the list
+          </span>
+        </div>
+        <div *ngIf="passwordReceived" class="form-group">
+          <label for="server">
+            Encrypted password
+          </label>
+          <p class="form-control">{{encryptedPassword}}</p>
+
+        </div>
+        <div *ngIf="passwordForm.get('serverData.server').valid" class="form-group">
+          <label for="pemkey">
+            Paste private ssh key below
+          </label>					
+          <textarea
+            name="pemkey"
+            rows="3"
+            class="form-control"
+            formControlName="pemkey">
+          </textarea>
+          <span
+            *ngIf="!passwordForm.get('serverData.pemkey').valid && passwordForm.get('serverData.pemkey').touched"
+            class="help-block">Please paste the private ssh key file that is associated with the public ssh key used to build the server
+          </span>						
+        </div>
+        <div *ngIf="passwordForm.get('serverData').valid" class="form-group">
+          <button type="button" (click)="onThisButton()" class="btn btn-primary btn-large" [disabled]="!passwordForm.get('loginData').valid">
+            Retrieve Password
+          </button>
+        </div>
+    <div *ngIf="passwordForm.get('serverData').valid" class="form-group">
+      <div class="jumbotron">
+        <h2>
+          The password is
+        </h2>
+        <p>
+          An amazing Password
+        </p>
+      </div>
+    </div>
+    
+   </form>
