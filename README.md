@@ -1,4 +1,4 @@
-# OpenStack VPNaaS v2 GUI - Written in Angular 4.0
+# OpenStack VPNaaS v2 GUI - Written in Angular 4.0 - Graham J Land
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.5.
 

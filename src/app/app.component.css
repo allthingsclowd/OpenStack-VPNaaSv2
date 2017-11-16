@@ -21,3 +21,19 @@ input.ng-invalid.ng-touched {
     margin-left: -50px !important;  /* 50% of your logo width */
     display: block; 
 }
+
+h1 {
+  font-size: 250%;
+  text-align: center;
+  vertical-align: middle;
+  color: red;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 200%;
+  text-align: center;
+  vertical-align: middle;
+  color: blue;
+  font-weight: bold;
+}

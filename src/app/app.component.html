@@ -4,6 +4,16 @@
 			<img alt="CNETS Logo" src="../assets/images/cnets.png" class="img-responsive center-block img-rounded">
 		</div>
 	</div>
+	<div class="row">
+			<div class="col-md-12">
+				<h1>Cloud Native & Emerging Technology Services</h1>
+			</div>
+	</div>
+	<div *ngIf="loggedIn && userProjects" class="row">
+			<div class="col-md-12">
+				<h2>OpenStack IPSec VPNaaS Tool</h2>
+			</div>
+	</div>
     <div class="container-fluid">
 		<app-login *ngIf="!loggedIn"></app-login>
 		<div>
