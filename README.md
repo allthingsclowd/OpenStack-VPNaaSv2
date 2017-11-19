@@ -1,5 +1,11 @@
 # OpenStack VPNaaS v2 Example Angular GUI
 
+This repository has example code that illustrates how both OpenStack and Fujitsu Cloud Service K5 APIs can be wrapped in an Angular GUI to provide end users with simplified tooling.
+
+The APIs are delivered as Angular services and could quite easily be used directly in a NodeJS application - when I've more time I'll stick them in an NPM repo.
+
+There's much more than VPNaaS coded here, however I've only presented the VPNaaS to provided a dedicated VPN tool.
+
 ## Example Application - https://cnets-vpnaas.uk-1.cf-app.net/
 ![screenshot from 2017-11-19 11-37-51](https://user-images.githubusercontent.com/9472095/32990255-3910409c-cd1e-11e7-9b25-aa31865cf0cf.png)
 
