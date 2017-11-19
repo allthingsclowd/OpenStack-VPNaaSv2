@@ -1,6 +1,8 @@
 # OpenStack VPNaaS v2 Example Angular GUI
 
 ## Example Application - https://cnets-vpnaas.uk-1.cf-app.net/
+![screenshot from 2017-11-19 11-37-51](https://user-images.githubusercontent.com/9472095/32990255-3910409c-cd1e-11e7-9b25-aa31865cf0cf.png)
+
 
 ## Blog overview - https://allthingscloud.eu/2017/11/18/vpnaas-simplified-on-fujitsu-k5/
 
