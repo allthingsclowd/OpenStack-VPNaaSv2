@@ -26,3 +26,6 @@ https://gist.github.com/allthingsclowd/d620d3e53a5a239d21599b1ca1628cf0
 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.5.
+
+## Code Quality Warning
+The quality of code in this application is evolving as I'm learning Angular.
