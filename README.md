@@ -1,4 +1,16 @@
-# K5PasswordRetrevial
+# OpenStack VPNaaS v2 Example Angular GUI
+
+## Example Application - https://cnets-vpnaas.uk-1.cf-app.net/
+
+## Blog overview - https://allthingscloud.eu/2017/11/18/vpnaas-simplified-on-fujitsu-k5/
+
+Demo infrastructure setup -
+
+
+
+https://gist.github.com/allthingsclowd/84ef6d6022e8582737b202fd1e565d96
+
+https://gist.github.com/allthingsclowd/d620d3e53a5a239d21599b1ca1628cf0
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.5.
 
