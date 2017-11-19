@@ -6,6 +6,9 @@ The APIs are delivered as Angular services and could quite easily be used direct
 
 There's much more than VPNaaS coded here, however I've only presented the VPNaaS to provided a dedicated VPN tool.
 
+## Note: CORS Proxy Required
+This application utilises a CORS proxy service to overcome browser security restrictions more details of my work-around can be found here - https://allthingscloud.eu/2017/03/24/cross-origin-resource-sharing-cors-on-fujitsus-k5-platform/
+
 ## Example Application - https://cnets-vpnaas.uk-1.cf-app.net/
 ![screenshot from 2017-11-19 11-37-51](https://user-images.githubusercontent.com/9472095/32990255-3910409c-cd1e-11e7-9b25-aa31865cf0cf.png)
 
